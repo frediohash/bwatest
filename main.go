@@ -2,7 +2,6 @@ package main
 
 import (
 	"bwatest/users/user"
-	"fmt"
 	"log"
 
 	"gorm.io/driver/mysql"
@@ -15,14 +14,11 @@ func main() {
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
-	var users []user.User
-	db.Find(&users)
-	length := len(users)
-	fmt.Println(length)
-
-	for _, user := range users {
-		fmt.Println(user.Name)
-		fmt.Println(user.Email)
-		fmt.Println("=====================================")
+	userRepository := user.NewRepository(db)
+	user := user.User{
+		Name:       "gogi",
+		Occupation: "sysadmin",
+		Email:      "gogi@gmail.com",
 	}
+	userRepository.Save(user)
 }
